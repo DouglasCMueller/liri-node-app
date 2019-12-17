@@ -30,36 +30,53 @@ switch (command) {
         break;
 };
 function concertThis(value) {
-    if(!value){
-        value="U2";
+    if (!value) {
+        value = "Tool";
     }
     axios.get("https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp")
-    .then(function(response) {
-console.log(response.venue);
+        .then(function (response) {
+            console.log("-----------------")
+            console.log(value + " next 5 concert dates")
+            console.log("-----------------")
+            for (i = 0; i < 5; i++) {
 
+                console.log(response.data[i].venue.name);
 
-        // var venue = response.data.venue;
-        // console.log(venue)
-           
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+                console.log(response.data[i].venue.city);
+
+                var dateTime = response.data[i].datetime;
+                dateTime = moment(dateTime).format("MMM Do YYYY");
+                console.log(dateTime);
+                console.log("-----------------")
+                // var venue = response.data.venue;
+                // console.log(venue)
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
 function movieThis(value) {
-    if(!value){
+    if (!value) {
         value = "jaws";
     }
     axios.get("https://www.omdbapi.com/?t=" + value + "&y=&plot=short&apikey=trilogy")
-    .then(function(response) {
-        var movieTitle = response.data.Title;
-        console.log(movieTitle)
-           
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
-    
+        .then(function (response) {
+            console.log("-----------------")
+            console.log("Movie Title: " + response.data.Title);
+            console.log("Year Released: " + response.data.Year);
+            console.log("Imdb Rating: " + response.data.imdbRating);
+            console.log("Rotten Tomatoes Rating: " + response.data.Metascore);
+            console.log("Country movie produced: " + response.data.Country);
+            console.log("Language: " + response.data.Language);
+            console.log("Plot: " + response.data.Plot);
+            console.log("Actors: " + response.data.Actors);
+            console.log("-----------------");
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
 }
 
