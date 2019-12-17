@@ -11,32 +11,44 @@ moment().format();
 var axios = require('axios'); //To get the information from the APIs for movie and concert-this
 
 var fs = require('fs'); //To read the random.txt file for the do-what-it-says function
+//store user command and (concert artist/movie/song)
+var totalCommand = process.argv;
 
-var command = process.argv[2]; //For the switch statement
-var value = process.argv[3]; //To send the song/movie/concert to their respective functions
+var userCommand = process.argv[2];
 
-switch (command) {
+var userEnteredData = "";
+for (var i = 3; i < totalCommand.length; i++) {
+    if (i > 3 && i < totalCommand.length) {
+      userEnteredData = userEnteredData + "+" + totalCommand[i];
+    } else {
+      userEnteredData += totalCommand[i];
+     }
+  }
+ 
+//determine user command
+switch (userCommand) {
     case "concert-this":
-        concertThis(value);
+        concertThis(userEnteredData);
         break;
     case "spotify-this-song":
-        spotifySong(value);
+        spotifySong(userEnteredData);
         break;
     case "movie-this":
-        movieThis(value);
+        movieThis(userEnteredData);
         break;
     case "do-what-it-says":
-        doThis(value);
+        doThis(userEnteredData);
         break;
 };
-function concertThis(value) {
-    if (!value) {
-        value = "Tool";
+//define function for logging next 5 concerts from artist entered by user
+function concertThis(userEnteredData) {
+    if (!userEnteredData) {
+        userEnteredData = "The Marshall Tucker Band";
     }
-    axios.get("https://rest.bandsintown.com/artists/" + value + "/events?app_id=codingbootcamp")
+    axios.get("https://rest.bandsintown.com/artists/" + userEnteredData + "/events?app_id=codingbootcamp")
         .then(function (response) {
             console.log("-----------------")
-            console.log(value + " next 5 concert dates")
+            console.log(userEnteredData + " next 5 concert dates")
             console.log("-----------------")
             for (i = 0; i < 5; i++) {
 
@@ -56,12 +68,12 @@ function concertThis(value) {
             console.log(error);
         });
 }
-
-function movieThis(value) {
-    if (!value) {
-        value = "jaws";
+//define function for logging data from movie entered by user
+function movieThis(userEntered) {
+    if (!userEntered) {
+        userEntered = "jaws";
     }
-    axios.get("https://www.omdbapi.com/?t=" + value + "&y=&plot=short&apikey=trilogy")
+    axios.get("https://www.omdbapi.com/?t=" + userEntered + "&y=&plot=short&apikey=trilogy")
         .then(function (response) {
             console.log("-----------------")
             console.log("Movie Title: " + response.data.Title);
@@ -77,6 +89,29 @@ function movieThis(value) {
         .catch(function (error) {
             console.log(error);
         });
+}
+//define function for logging data about song entered by user
+function spotifySong(userEntered) {
+    if (!userEntered) {
+        userEntered = "Freebird";
+    }
 
+    spotify.search({
+        type: 'track',
+        query: userEntered,
+        limit: 5
+    }, function (error, data) {
+        if (error) {
+            return console.log('Error occurred: ' + err);
+        }
+        console.log("-----------------")
+        console.log("Artist: ", data.tracks.items[0].album.artists[0].name);
+        console.log("Song Name: ", data.tracks.items[0].name);
+        console.log("Preview URL: ", data.tracks.items[0].href);
+        console.log("Album Name: ", data.tracks.items[0].album.name);
+        console.log("-----------------")
+    });
 }
 
+
+//define function for logging command and data entered by user
