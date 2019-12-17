@@ -37,7 +37,7 @@ switch (userCommand) {
         movieThis(userEnteredData);
         break;
     case "do-what-it-says":
-        doThis(userEnteredData);
+        doWhatItSays(userEnteredData);
         break;
 };
 //define function for logging next 5 concerts from artist entered by user
@@ -69,11 +69,11 @@ function concertThis(userEnteredData) {
         });
 }
 //define function for logging data from movie entered by user
-function movieThis(userEntered) {
-    if (!userEntered) {
-        userEntered = "jaws";
+function movieThis(userEnteredData) {
+    if (!userEnteredData) {
+        userEnteredData = "jaws";
     }
-    axios.get("https://www.omdbapi.com/?t=" + userEntered + "&y=&plot=short&apikey=trilogy")
+    axios.get("https://www.omdbapi.com/?t=" + userEnteredData + "&y=&plot=short&apikey=trilogy")
         .then(function (response) {
             console.log("-----------------")
             console.log("Movie Title: " + response.data.Title);
@@ -91,14 +91,14 @@ function movieThis(userEntered) {
         });
 }
 //define function for logging data about song entered by user
-function spotifySong(userEntered) {
-    if (!userEntered) {
-        userEntered = "Freebird";
+function spotifySong(userEnteredData) {
+    if (!userEnteredData) {
+        userEnteredData = "Freebird";
     }
 
     spotify.search({
         type: 'track',
-        query: userEntered,
+        query: userEnteredData,
         limit: 5
     }, function (error, data) {
         if (error) {
@@ -115,3 +115,36 @@ function spotifySong(userEntered) {
 
 
 //define function for logging command and data entered by user
+
+function doWhatItSays() {
+    
+    var fs = require("fs");
+
+fs.readFile("random.txt", "utf8", function(error, data) {
+
+  if (error) {
+    return console.log(error);
+  }
+
+
+  console.log(data);
+
+  // Then split it by commas (to make it more readable)
+  var dataArray = data.split(",");
+  console.log(dataArray);
+  var dataArrayCommand = dataArray[0];
+  console.log(dataArrayCommand);
+  var userEnteredData = "";
+for (var i = 1; i < dataArray.length; i++) {
+    if (i > 1 && i < dataArray.length) {
+      userEnteredData = userEnteredData + "+" + dataArray[i];
+    } else {
+      userEnteredData += dataArray[i];
+     }
+  }
+  userEnteredData = 
+console.log(userEnteredData);
+
+
+});
+}
