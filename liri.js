@@ -47,6 +47,7 @@ function concertThis(userEnteredData) {
     }
     axios.get("https://rest.bandsintown.com/artists/" + userEnteredData + "/events?app_id=codingbootcamp")
         .then(function (response) {
+
             console.log("-----------------")
             console.log(userEnteredData + " next 5 concert dates")
             console.log("-----------------")
@@ -125,15 +126,8 @@ fs.readFile("random.txt", "utf8", function(error, data) {
   if (error) {
     return console.log(error);
   }
-
-
-  console.log(data);
-
-  // Then split it by commas (to make it more readable)
   var dataArray = data.split(",");
-  console.log(dataArray);
   var dataArrayCommand = dataArray[0];
-  console.log(dataArrayCommand);
   var userEnteredData = "";
 for (var i = 1; i < dataArray.length; i++) {
     if (i > 1 && i < dataArray.length) {
@@ -142,8 +136,27 @@ for (var i = 1; i < dataArray.length; i++) {
       userEnteredData += dataArray[i];
      }
   }
-  userEnteredData = 
+  if (dataArrayCommand === "concert-this"){
+
+
+  }
+console.log(dataArrayCommand);
 console.log(userEnteredData);
+
+switch (dataArrayCommand) {
+    case "concert-this":
+        concertThis(userEnteredData);
+        break;
+    case "spotify-this-song":
+        spotifySong(userEnteredData);
+        break;
+    case "movie-this":
+        movieThis(userEnteredData);
+        break;
+    case "do-what-it-says":
+        doWhatItSays(userEnteredData);
+        break;
+};
 
 
 });
