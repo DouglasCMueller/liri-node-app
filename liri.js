@@ -2,29 +2,30 @@
 require("dotenv").config();
 
 var keys = require("./keys.js");
-var Spotify = require('node-spotify-api'); //Using the Spotify api and getting the key from keys.js
+var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 
-var moment = require('moment'); //Both required to use moment for node
+var moment = require('moment');
 moment().format();
 
-var axios = require('axios'); //To get the information from the APIs for movie and concert-this
+var axios = require('axios'); 
+var fs = require('fs');
 
-var fs = require('fs'); //To read the random.txt file for the do-what-it-says function
-//store user command and (concert artist/movie/song)
 var totalCommand = process.argv;
-
 var userCommand = process.argv[2];
+var userEnteredData = totalCommand.slice(3).join(" ");
+//write user entered data to the userEnteredInfo.txt file
+fs.appendFile("userEnteredInfo.txt", userCommand + ", " + userEnteredData +"\n" , function(err) {
 
-var userEnteredData = "";
-for (var i = 3; i < totalCommand.length; i++) {
-    if (i > 3 && i < totalCommand.length) {
-      userEnteredData = userEnteredData + "+" + totalCommand[i];
-    } else {
-      userEnteredData += totalCommand[i];
-     }
-  }
- 
+    // If the code experiences any errors it will log the error to the console.
+    if (err) {
+      return console.log(err);
+    }
+  
+    // Otherwise, it will print: "movies.txt was updated!"
+    console.log("userEnteredInfor.txt was updated!");
+  
+  });
 //determine user command
 switch (userCommand) {
     case "concert-this":
@@ -114,8 +115,7 @@ function spotifySong(userEnteredData) {
     });
 }
 
-
-//define function for logging command and data entered by user
+//define function for logging command and data entered by user in random.txt file
 
 function doWhatItSays() {
     
@@ -129,20 +129,10 @@ fs.readFile("random.txt", "utf8", function(error, data) {
   var dataArray = data.split(",");
   var dataArrayCommand = dataArray[0];
   var userEnteredData = "";
-for (var i = 1; i < dataArray.length; i++) {
-    if (i > 1 && i < dataArray.length) {
-      userEnteredData = userEnteredData + "+" + dataArray[i];
-    } else {
-      userEnteredData += dataArray[i];
-     }
-  }
+  var userEnteredData = dataArray.slice(1).join(" ");
+  
   if (dataArrayCommand === "concert-this"){
-
-
   }
-console.log(dataArrayCommand);
-console.log(userEnteredData);
-
 switch (dataArrayCommand) {
     case "concert-this":
         concertThis(userEnteredData);
@@ -157,7 +147,5 @@ switch (dataArrayCommand) {
         doWhatItSays(userEnteredData);
         break;
 };
-
-
 });
 }
