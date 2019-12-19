@@ -47,4 +47,4 @@ node liri.js movie-this '<movie name here>' - This will return:
 node liri.js do-what-it-says
   LIRI use the commands listed in random.txt and then calls one of LIRI's functions.
 
-All user command lines are saved to the "userEnteredInfo.txt" file.
+All user command lines are saved to the "userEnteredInfor.txt" file.
