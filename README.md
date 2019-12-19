@@ -39,8 +39,8 @@ Language of the movie.
 Plot of the movie.
 Actors in the movie.
 If a movie isn't provided, a default movie, "Jaws", will be used.
-node liri.js do-what-it-says
 
+node liri.js do-what-it-says
 LIRI use the commands listed in random.txt and then call one of LIRI's functions.
 
 All user command lines are saved to the "userEnteredInfo.txt" file.
