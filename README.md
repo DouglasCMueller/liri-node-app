@@ -1,6 +1,9 @@
 liri-node-app 
+
 Developer: Douglas C. Mueller
+
 Overview
+
 LIRI Bot is a command line application using Node.js and several modules installed using NPM.
 
 Liri Bot
