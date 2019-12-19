@@ -95,7 +95,7 @@ function movieThis(userEnteredData) {
 //define function for logging data about song entered by user
 function spotifySong(userEnteredData) {
     if (!userEnteredData) {
-        userEnteredData = "Freebird";
+        userEnteredData = "Let It Be";
     }
 
     spotify.search({
